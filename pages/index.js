@@ -1,6 +1,6 @@
 
 
-export const Home  = (props) => {
+ const Home  = (props) => {
   return <div>
     {props.services.map((service, index) => {
       return<div key={index}>
@@ -9,6 +9,7 @@ export const Home  = (props) => {
     })}
   </div>
 }
+export default Home;
 
 export const getServerSideProps = async () => {
   const path = String(process.env.API_URL + '/services');

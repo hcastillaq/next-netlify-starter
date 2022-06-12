@@ -1,23 +1,27 @@
-import Head from 'next/head'
-import Header from '@components/Header'
-import Footer from '@components/Footer'
 
-export default function Home() {
-  return (
-    <div className="container">
-      <Head>
-        <title>Next.js Starter!</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
 
-      <main>
-        <Header title="Welcome to my app!" />
-        <p className="description">
-          Get started by editing <code>pages/index.js</code>
-        </p>
-      </main>
-
-      <Footer />
-    </div>
-  )
+export const Home  = (props) => {
+  return <div>
+    {props.services.map((service, index) => {
+      return<div key={index}>
+        <span>{service.title}</span>
+      </div>
+    })}
+  </div>
 }
+
+export const getServerSideProps = async () => {
+  const path = String(process.env.API_URL + '/services');
+  const { data } = await fetch(path, {
+    method: `GET`,
+    headers: {
+      Accept: `*/*`,
+      'x-api-key': `${process.env.API_KEY}`,
+    },
+  }).then((resp) => resp.json());
+  return {
+    props: {
+      services: data,
+    },
+  };
+};
